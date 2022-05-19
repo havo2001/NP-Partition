@@ -6,42 +6,59 @@ from main import BruteForceSolution
 from main import BottomUpDynamicSolution
 from main import TopDownDynamicSolution
 
+number_of_test = 4
+total_value = 5
 brute_force_time = list()
+bottom_up_dynamic_time = list()
+top_down_dynamic_time = list()
 
 
 class TimeCalculating:
     @staticmethod
     def time_calculating():
-        given_list = [[[random.randint(1, 5) for i in range(10 * (k + 1))] for j in range(5)] for k in range(4)]
-        for i in range(4):
-            average_time = 0
-            for j in range(5):
+        given_list = [[[random.randint(1, 5) for i in range(1000 * (k + 1))] for j in range(total_value)] for k in
+                      range(number_of_test)]
+        for i in range(number_of_test):
+            first_average_time = 0
+            for j in range(total_value):
                 start = time()
                 brute_force = BruteForceSolution(given_list[i][j])
                 brute_force.can_partition()
                 interval = time() - start
-                average_time += interval
+                first_average_time += interval
+
             print(f"Time for brute force solution for {len(given_list[i][i])} numbers",
-                  average_time / len(given_list[i]))
-            brute_force_time.append(average_time / len(given_list[i]))
+                  first_average_time / len(given_list[i]))
 
-        # second_time = 0
-        # for i in range(5):
-        #     start = time.time()
-        #     top_down = TopDownDynamicSolution(self.given_list[i])
-        #     top_down.can_partition()
-        #     end = time.time()
-        #     second_time += (end - start)
-        # print("Time for top down dynamic solution:", second_time*1000/5)
+            brute_force_time.append(first_average_time / len(given_list[i]))
 
-        # third_time = 0
-        # for i in range(5):
-        #     start = time.time()
-        #     bottom_up = BottomUpDynamicSolution(self.given_list[i])
-        #     bottom_up.can_partition()
-        #     end = time.time()
-        #     third_time += (end - start)
-        # print("Time for bottom up dynamic solution:", third_time*1000/5)
+        for i in range(number_of_test):
+            second_average_time = 0
+            for j in range(total_value):
+                start = time()
+                top_down = TopDownDynamicSolution(given_list[i][j])
+                top_down.can_partition()
+                interval = time() - start
+                second_average_time += interval
+
+            print(f"Time for top down  solution for {len(given_list[i][i])} numbers",
+                  second_average_time / len(given_list[i]))
+
+            top_down_dynamic_time.append(second_average_time / len(given_list[i]))
+
+        for i in range(number_of_test):
+            third_average_time = 0
+            for j in range(total_value):
+                start = time()
+                bottom_up = BottomUpDynamicSolution(given_list[i][j])
+                bottom_up.can_partition()
+                interval = time() - start
+                third_average_time += interval
+
+            print(f"Time for bottom up solution for {len(given_list[i][i])} numbers",
+                  third_average_time / len(given_list[i]))
+
+            bottom_up_dynamic_time.append(third_average_time / len(given_list[i]))
 
 
 sys.setrecursionlimit(10 ** 8)
